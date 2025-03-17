@@ -11,17 +11,28 @@ import { model, Schema } from 'mongoose';
 // ✅ "email" - необов'язкове текстове поле, (може бути null)
 // ✅ "isFavourite" - необов'язкове булеве поле, значення за замовчуванням false,
 // ✅ "contactType" - обов'язкове текстове поле, варіанти значень: work, home, personal, значення за замовчуванням "personal".
-const contactsSchema = new Schema(
+const ridersSchema = new Schema(
   {
     name: { type: String, required: true },
+    lastName: { type: String, required: true },
     phoneNumber: { type: String, required: true },
-    email: { type: String },
-    isFavourite: { type: Boolean, default: false },
-    contactType: {
+    email: { type: String, required: true  },
+    dateOfBirth: {type: String, required: true },
+    adres: { type: String,},
+    startNumber: { type: Number, unique: true, required: true },
+    modelMoto: {type: String},
+    engineSize: {type: Number, required: true},
+    riderType: {
       type: String,
-      enum: ['work', 'home', 'personal'],
+      enum: ['open', 'kobiety', 'junior'],
       required: true,
-      default: 'personal',
+      default: 'open',
+    },
+    shirt: {
+      type: String,
+      enum: ['nie', 's', 'm', 'l', 'xl', 'xxl'],
+      required: true,
+      default: 'nie',
     },
   },
   {
@@ -32,4 +43,5 @@ const contactsSchema = new Schema(
 
 // Експортуємо модель ContactsCollection для роботи з колекцією "contacts"
 // Модель пов'язує схему з колекцією в базі даних і дозволяє виконувати запити
-export const ContactsCollection = model('contacts', contactsSchema);
+export const RidersCollection = model('riders', ridersSchema);
+

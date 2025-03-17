@@ -6,13 +6,13 @@ import express from 'express';
 
 // Імпорт контролерів
 import {
-  createNewContactController,
-  deleteContactController,
-  getAllContactsController,
-  getContactByIdController,
-  patchContactController,
-  putContactController,
-} from '../controllers/contacts.js';
+  createNewRiderController,
+  deleteRiderController,
+  getAllRidersController,
+  getRiderByIdController,
+  patchRiderController,
+  putRiderController,
+} from '../controllers/riders.js';
 
 // Імпорт ctrlWrapper - утиліта для огортання контролерів
 // Для обробки помилок (try...catch) і захищення від падіння сервера (unhandled promise rejection)
@@ -30,21 +30,21 @@ const jsonParser = express.json({
 
 // Роути для різних видів запитів
 // GET i DELETE --> не потребують jsonParser
-router.get('/contacts', ctrlWrapper(getAllContactsController));
-router.get('/contacts/:contactId', ctrlWrapper(getContactByIdController));
-router.delete('/contacts/:contactId', ctrlWrapper(deleteContactController));
+router.get('/riders', ctrlWrapper(getAllRidersController));
+router.get('/riders/:riderId', ctrlWrapper(getRiderByIdController));
+router.delete('/riders/:riderId', ctrlWrapper(deleteRiderController));
 
 // POST, PUT i PATCH --> потребують jsonParser
-router.post('/contacts', jsonParser, ctrlWrapper(createNewContactController));
+router.post('/riders', jsonParser, ctrlWrapper(createNewRiderController));
 router.put(
-  '/contacts/:contactId',
+  '/riders/:riderId',
   jsonParser,
-  ctrlWrapper(putContactController),
+  ctrlWrapper(putRiderController),
 );
 router.patch(
-  '/contacts/:contactId',
+  '/riders/:riderId',
   jsonParser,
-  ctrlWrapper(patchContactController),
+  ctrlWrapper(patchRiderController),
 );
 
 // Експорт екземпляру Router

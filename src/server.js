@@ -5,7 +5,7 @@ import cors from 'cors'; // Cors - для дозволу запитів із р�
 
 // Імпорт функцій
 import { getEnvVar } from './utils/getEnvVar.js'; // Функція для отримання змінних середовища
-import contactsRouter from './routers/contacts.js'; // Роутер для контактів
+import ridersRouter from './routers/riders.js'; // Роутер для контактів
 import rootRouter from './routers/rootRouter.js'; // Роутер для root route
 import { errorHandler } from './middlewares/errorHandler.js'; // Middleware для обробки помилок
 import { notFoundHandler } from './middlewares/notFoundHandler.js'; // Middleware для обробки неіснуючих маршрутів
@@ -41,7 +41,7 @@ export const setupServer = () => {
 
   // Підключамо роутер для root route та контактів
   app.use(rootRouter);
-  app.use(contactsRouter);
+  app.use(ridersRouter);
 
   // Старі роути - видалені  і перенесені в src/routers/contacts.js
   // app.get('/contacts', async (req, res) => {

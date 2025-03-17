@@ -1,50 +1,50 @@
 // Імпорт сервісних функцій з файлу /src/services.js
 import {
-    createNewContact,
-    deleteContact,
-    getAllContacts,
-    getContactById,
-    patchUpdateContact,
-    putUpdateContact,
-  } from '../services/contacts.js';
+    createNewRider,
+    deleteRider,
+    getAllRiders,
+    getRiderById,
+    patchUpdateRider,
+    putUpdateRider,
+  } from '../services/riders.js';
   
   // Імпорт пакету http-errors для обробки помилок
   import createHttpError from 'http-errors';
   
   // Контролер для отримання всіх контактів
-  export const getAllContactsController = async (_req, res) => {
-    const contacts = await getAllContacts(); // Використовуємо сервісну функцію getAllContacts
+  export const getAllRidersController = async (_req, res) => {
+    const riders = await getAllRiders(); // Використовуємо сервісну функцію getAllContacts
   
     // Перевірка на відсутність контактів
     // Якщо контактів немає (масив контактів порожній) - викликаємо помилку
-    if (contacts.length === 0) {
-      throw createHttpError(404, 'No contacts found');
+    if (riders.length === 0) {
+      throw createHttpError(404, 'No riders found');
     }
   
     // Відправляємо відповідь з даними контактів
     res.status(200).json({
       status: 200,
-      message: `Successfully found contacts in the amount of ${contacts.length} pcs!`,
-      data: contacts, // Відправляємо масив контактів
+      message: `Successfully found riders in the amount of ${riders.length} pcs!`,
+      data: riders, // Відправляємо масив контактів
     });
   };
   
   // Контролер для отримання контакту за id
-  export const getContactByIdController = async (req, res, _next) => {
-    const { contactId } = req.params; // Отримуємо id контакту з параметрів запиту
-    const contact = await getContactById(contactId); // Використовуємо сервісну функцію getContactById, повертає об'єкт контакту
+  export const getRiderByIdController = async (req, res, _next) => {
+    const { riderId } = req.params; // Отримуємо id контакту з параметрів запиту
+    const rider = await getRiderById(riderId); // Використовуємо сервісну функцію getContactById, повертає об'єкт контакту
   
     // Перевірка на відсутність контакту
     // Якщо контакт не знайдено (null), викликаємо помилку
-    if (!contact) {
-      throw createHttpError(404, 'Contact not found');
+    if (!rider) {
+      throw createHttpError(404, 'Rider not found');
     }
   
     // Відправляємо відповідь з даними контакту
     res.status(200).json({
       status: 200,
-      message: `Successfully found contact with id: ${contactId}!`,
-      data: contact, // Відправляємо об'єкт контакту
+      message: `Successfully found rider with id: ${riderId}!`,
+      data: rider, // Відправляємо об'єкт контакту
     });
   };
   
@@ -64,10 +64,10 @@ import {
   //     return;
   //   }
   
-  export const createNewContactController = async (req, res) => {
+  export const createNewRiderController = async (req, res) => {
     // Контролер для створення нового контакту
     // Перевірка на відсутність обов'язкових полів
-    if (!req.body.name || !req.body.phoneNumber || !req.body.contactType) {
+    if (!req.body.name || !req.body.phoneNumber || !req.body.riderType) {
       const missingFields = []; // Масив для зберігання назв полів
   
       // Якщо поле не знайдено, додаємо його до масиву "missingFields"
@@ -78,7 +78,7 @@ import {
         missingFields.push('phoneNumber');
       }
       if (!req.body.contactType) {
-        missingFields.push('contactType');
+        missingFields.push('riderType');
       }
   
       // Повертаємо помилку з відповідними обов'язковими полями
@@ -94,27 +94,27 @@ import {
     // });
     // return;
   
-    const newContact = await createNewContact(req.body); // Використовуємо сервісну функцію createNewContact
+    const newRider = await createNewRider(req.body); // Використовуємо сервісну функцію createNewContact
     // Передаємо в неї тіло запиту (req.body)
   
     // Відправляємо відповідь з даними нового контакту
     res.status(201).json({
       status: 201,
-      message: 'Successfully created a new contact!',
-      data: newContact, // Відправляємо об'єкт нового контакту
+      message: 'Successfully created a new rider!',
+      data: newRider, // Відправляємо об'єкт нового контакту
     });
   };
   
   // Контролер для видалення контакту
-  export const deleteContactController = async (req, res, _next) => {
-    const { contactId } = req.params; // Отримуємо id контакту з параметрів запиту
-    const deletedContact = await deleteContact(contactId); // Використовуємо сервісну функцію deleteContact
+  export const deleteRiderController = async (req, res, _next) => {
+    const { riderId } = req.params; // Отримуємо id контакту з параметрів запиту
+    const deletedRider = await deleteRider(riderId); // Використовуємо сервісну функцію deleteContact
     // Передаємо в неї id контакту
   
     // Перевірка на відсутність контакту
     // Якщо контакт не знайдено (null), викликаємо помилку
-    if (!deletedContact) {
-      throw createHttpError(404, 'Contact not found');
+    if (!deletedRider) {
+      throw createHttpError(404, 'Rider not found');
     }
   
     // ✅ Альтернативний варіант обробки помилки
@@ -127,42 +127,42 @@ import {
   };
   
   // Контролер для оновлення контакту PATCH
-  export const patchContactController = async (req, res, _next) => {
-    const { contactId } = req.params; // Отримуємо id контакту з параметрів запиту
+  export const patchRiderController = async (req, res, _next) => {
+    const { riderId } = req.params; // Отримуємо id контакту з параметрів запиту
     // Використовуємо сервісну функцію patchUpdateContact, передаємо id контакту і тіло запиту
-    const result = await patchUpdateContact(contactId, req.body);
+    const result = await patchUpdateRider(riderId, req.body);
   
     // Перевірка на відсутність контакту
     // Якщо контакт не знайдено (null), викликаємо помилку
     if (!result) {
-      throw createHttpError(404, 'Contact not found');
+      throw createHttpError(404, 'Rider not found');
     }
   
     // Відправляємо відповідь з даними контакту
     res.status(200).json({
       status: 200,
-      message: 'Successfully patched a contact!',
+      message: 'Successfully patched a rider!',
       data: result, // Відправляємо об'єкт контакту
     });
   };
   
   // Контролер для оновлення контакту PUT
-  export const putContactController = async (req, res, _next) => {
-    const { contactId } = req.params; // Отримуємо id контакту з параметрів запиту
+  export const putRiderController = async (req, res, _next) => {
+    const { riderId } = req.params; // Отримуємо id контакту з параметрів запиту
   
     // Отримуємо об'єкт контакту за id
-    const existingContact = await getContactById(contactId);
+    const existingRider = await getRiderById(riderId);
   
     // Перевірка на відсутність контакту (якщо контакт не знайдено - він буде створений за допомогою putUpdateContact)
-    if (!existingContact) {
+    if (!existingRider) {
       // При створенні контакту перевіряємо на наявність всіх обов'язкових полів в тілі запиту (req.body)
-      if (!req.body.name || !req.body.phoneNumber || !req.body.contactType) {
+      if (!req.body.name || !req.body.phoneNumber || !req.body.RiderType) {
         const missingFields = []; // Масив для зберігання незаповнених полів
   
         // Перевірка на наявність обов'язкових полів - якщо поле не заповнено, додаємо його до масиву
         if (!req.body.name) missingFields.push('name');
         if (!req.body.phoneNumber) missingFields.push('phoneNumber');
-        if (!req.body.contactType) missingFields.push('contactType');
+        if (!req.body.riderType) missingFields.push('contactType');
   
         // Викликаємо помилку з повідомленням про незаповнені поля
         throw createHttpError(
@@ -173,11 +173,11 @@ import {
     }
     // Використовуємо сервісну функцію putUpdateContact, передаємо id контакту і тіло запиту
     // { upsert: true } для створення контакту, якщо такого немає
-    const result = await putUpdateContact(contactId, req.body, { upsert: true });
+    const result = await putUpdateRider(riderId, req.body, { upsert: true });
   
     // Якщо виникла помилка при створенні контакту (null), викликаємо помилку
     if (!result) {
-      throw createHttpError(404, 'Contact not found');
+      throw createHttpError(404, 'Rider not found');
     }
     // Перевіряємо - контакт був створений чи відредагований
     // isNew - true, якщо контакт був створений, false - якщо контакт був відредагований
@@ -186,7 +186,7 @@ import {
     // Відправляємо відповідь з даними контакту
     res.status(statusCode).json({
       status: statusCode,
-      message: 'Successfully upserted a contact!',
-      data: result.contact,
+      message: 'Successfully upserted a rider!',
+      data: result.rider,
     });
   };
